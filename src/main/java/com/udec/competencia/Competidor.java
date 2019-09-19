@@ -59,7 +59,7 @@ public class Competidor extends Thread{
      public static int random(){
         double i=Math.random()*100;
         int j=(int) i;
-        if(j<33){
+        if(j<30){
             j=0;
         } 
         else if(j>=30&&j<60){
