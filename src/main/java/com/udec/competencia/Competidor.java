@@ -62,13 +62,13 @@ public class Competidor extends Thread{
         if(j<33){
             j=0;
         } 
-        else if(j>=30&&j<60){
+        else if(j>=25&&j<50){
             j=1;
         }
-        else if(j>=60&&j<90){
+        else if(j>=50&&j<75){
             j=2;
         }
-        else if(j>=90){
+        else if(j>=75){
             j=3;
         }
         return j;
