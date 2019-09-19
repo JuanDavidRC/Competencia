@@ -56,19 +56,19 @@ public class Competidor extends Thread{
      * separados en diferentes rangos
      * @return 
      */
-    public static int random(){
+     public static int random(){
         double i=Math.random()*100;
         int j=(int) i;
-        if(j<25){
+        if(j<33){
             j=0;
         } 
-        else if(j>=25&&j<50){
+        else if(j>=30&&j<60){
             j=1;
         }
-        else if(j>=50&&j<75){
+        else if(j>=60&&j<90){
             j=2;
         }
-        else if(j>=75){
+        else if(j>=90){
             j=3;
         }
         return j;
@@ -138,7 +138,19 @@ public class Competidor extends Thread{
                 int competidor = carrera(3);
                 if (competidor >= 100) {
                     equipo.setLimite3(100);
-                     System.out.println((char)27 + "[34;43m-------------------EL GANADOR ES ------------------: "+equipo.getNombre());
+                     System.out.println((char)27 + "[34;43mEL GANADOR ES : "+equipo.getNombre());
+                    System.out.println("\033[33m _______________________*____________________: ");
+                    System.out.println("\033[33m ____________________*     *____________________: ");
+                    System.out.println("\033[33m __________________*         *____________________: ");
+                    System.out.println("\033[33m _______________**             **___________________: ");
+                    System.out.println("\033[33m _________________*           *____________________: ");
+                    System.out.println("\033[32m __________________"+equipo.getNombre()+"__________________:");
+                    System.out.println("\033[33m __________________*         *____________________: ");
+                    System.out.println("\033[33m _________________*           *____________________: ");
+                    System.out.println("\033[33m _______________*               *___________________: ");
+                    System.out.println("\033[33m _________________*           *____________________: ");
+                    System.out.println("\033[33m ____________________*     *____________________: ");
+                    System.out.println("\033[33m _______________________*____________________: ");
                     System.exit(0);
                     break;
                 }
