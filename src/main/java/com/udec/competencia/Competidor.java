@@ -77,23 +77,9 @@ public class Competidor extends Thread{
      * implementacionde el metodo run 
      */
     @Override
-    public void run() {
-        /**
-         * bloque hasta el llamdo del metodo wait para
-         * que continue al sigiente relevo
-         */
+    public void run() {    
         if (posicion == 0) {
-            while (true) {
-                int competidor = carrera(1);
-                if (competidor >= 33) {
-                    equipo.setLimeta1(33);
-                    synchronized (equipo) {
-                        equipo.notifyAll();
-                        posicion = 33;
-                    }
-                    break;
-                }
-            }
+            relevo1();
         } else {
             synchronized (equipo) {
                 try {
@@ -105,20 +91,7 @@ public class Competidor extends Thread{
 
         }
         if (posicion == 33) {
-         /**
-         * bloque hasta el llamdo del metodo wait para
-         * que continue al sigiente relevo
-         */
-            while (true) {
-                int competidor = carrera(2);
-                if (competidor >= 66) {
-                    equipo.setLimite2(66);
-                    synchronized (equipo) {
-                        equipo.notify();
-                    }
-                    break;
-                }
-            }
+            relevo2();            
         } else {
             synchronized (equipo) {
                 try {
@@ -130,31 +103,7 @@ public class Competidor extends Thread{
 
         }
         if (posicion == 66) {
-         /**
-         * bloque hasta el llamdo del metodo wait para
-         * que continue al sigiente relevo
-         */
-            while (true) {
-                int competidor = carrera(3);
-                if (competidor >= 100) {
-                    equipo.setLimite3(100);
-                     System.out.println((char)27 + "[34;43mEL GANADOR ES : "+equipo.getNombre());
-                    System.out.println("\033[33m _______________________*____________________: ");
-                    System.out.println("\033[33m ____________________*     *____________________: ");
-                    System.out.println("\033[33m __________________*         *____________________: ");
-                    System.out.println("\033[33m _______________**             **___________________: ");
-                    System.out.println("\033[33m _________________*           *____________________: ");
-                    System.out.println("\033[32m __________________"+equipo.getNombre()+"__________________:");
-                    System.out.println("\033[33m __________________*         *____________________: ");
-                    System.out.println("\033[33m _________________*           *____________________: ");
-                    System.out.println("\033[33m _______________*               *___________________: ");
-                    System.out.println("\033[33m _________________*           *____________________: ");
-                    System.out.println("\033[33m ____________________*     *____________________: ");
-                    System.out.println("\033[33m _______________________*____________________: ");
-                    System.exit(0);
-                    break;
-                }
-            }
+            relevo3();
         } else {
             synchronized (equipo) {
                 try {
@@ -177,13 +126,89 @@ public class Competidor extends Thread{
         } catch (InterruptedException ex) {
             Logger.getLogger(Competidor.class.getName()).log(Level.SEVERE, null, ex);
         }
-        int valorAvance = random();
+        int valorAvance = random();      
+        if (competidor == 1) {
+            equipo.setLimeta1(equipo.getLimeta1() + valorAvance);
+               posicion1();              
+            return equipo.getLimeta1();
+        }       
+        if (competidor == 2) {
+            equipo.setLimite2(equipo.getLimite2() + valorAvance);
+            posicion2();          
+            return equipo.getLimite2();
+        }      
+        if (competidor == 3) {
+            equipo.setLimite3(equipo.getLimite3() + valorAvance);
+            posicion3();
+            return equipo.getLimite3();
+        }
+        return 0;
+    }
+        /**
+         * bloque hasta el llamdo del metodo wait para
+         * que continue al sigiente relevo
+         */
+    public void relevo1(){
+        while (true) {
+                int competidor = carrera(1);
+                if (competidor >= 33) {
+                    equipo.setLimeta1(33);
+                    synchronized (equipo) {
+                        equipo.notifyAll();
+                        posicion = 33;
+                    }
+                    break;
+                }
+            }
+    }
+        /**
+         * bloque hasta el llamdo del metodo wait para
+         * que continue al sigiente relevo
+         */
+    public void relevo2(){
+        while (true) {
+                int competidor = carrera(2);
+                if (competidor >= 66) {
+                    equipo.setLimite2(66);
+                    synchronized (equipo) {
+                        equipo.notify();
+                    }
+                    break;
+                }
+            }
+    }
+        /**
+         * bloque hasta el llamdo del metodo wait para
+         * que continue al sigiente relevo
+         */
+    public void relevo3(){
+        while (true) {
+                int competidor = carrera(3);
+                if (competidor >= 100) {
+                    equipo.setLimite3(100);
+                     System.out.println((char)27 + "[34;43mEL GANADOR ES : "+equipo.getNombre());
+                    System.out.println("\033[33m _______________________*____________________: ");
+                    System.out.println("\033[33m ____________________*     *____________________: ");
+                    System.out.println("\033[33m __________________*         *____________________: ");
+                    System.out.println("\033[33m _______________**             **___________________: ");
+                    System.out.println("\033[33m _________________*           *____________________: ");
+                    System.out.println("\033[32m __________________"+equipo.getNombre()+"__________________:");
+                    System.out.println("\033[33m __________________*         *____________________: ");
+                    System.out.println("\033[33m _________________*           *____________________: ");
+                    System.out.println("\033[33m _______________*               *___________________: ");
+                    System.out.println("\033[33m _________________*           *____________________: ");
+                    System.out.println("\033[33m ____________________*     *____________________: ");
+                    System.out.println("\033[33m _______________________*____________________: ");
+                    System.exit(0);
+                    break;
+                }
+            }
+    }
         /**
          * inicia el relevo desde la posicion cero
          */
-        if (competidor == 1) {
-            equipo.setLimeta1(equipo.getLimeta1() + valorAvance);
-            if(equipo.imprimir().contains("Equipo 1")){
+    public void posicion1(){
+        if(equipo.imprimir().contains("Equipo 1")){
                 equipo1=equipo.imprimir();            
             }else if(equipo.imprimir().contains("Equipo 2")){
                 equipo2=equipo.imprimir();
@@ -199,15 +224,14 @@ public class Competidor extends Thread{
            }
             if(equipo2!=null){
                 System.out.println(equipo2);               
-            }                 
-            return equipo.getLimeta1();
-        }
+            }
+    }
+    
         /**
          * da continuacion a el segundo relevo y cambia de color el personaje
          */
-        if (competidor == 2) {
-            equipo.setLimite2(equipo.getLimite2() + valorAvance);
-            if(equipo.imprimir().contains("Equipo 1")){
+    public void posicion2(){
+        if(equipo.imprimir().contains("Equipo 1")){
                 equipo1=equipo.imprimir();
             }else if(equipo.imprimir().contains("Equipo 2")){
                 equipo2=equipo.imprimir();
@@ -223,16 +247,14 @@ public class Competidor extends Thread{
             }
             if(equipo2!=null){
                 System.out.println(equipo2);               
-            }          
-            return equipo.getLimite2();
-        }
+            }
+    }
         /**
          * da continuacion al tercer relevo y cambia de color al los competidores
          * simultania mente
          */
-        if (competidor == 3) {
-            equipo.setLimite3(equipo.getLimite3() + valorAvance);
-            if(equipo.imprimir().contains("Equipo 1")){
+    public void posicion3(){
+        if(equipo.imprimir().contains("Equipo 1")){
                 equipo1=equipo.imprimir();
             }else if(equipo.imprimir().contains("Equipo 2")){
                 equipo2=equipo.imprimir();
@@ -249,9 +271,6 @@ public class Competidor extends Thread{
             if(equipo2!=null){
                 System.out.println(equipo2);   
             }     
-            return equipo.getLimite3();
-        }
-        return 0;
     }
     /**
      *metodo vacio  permite ver con detalle
@@ -262,4 +281,5 @@ public class Competidor extends Thread{
             System.out.println("\n");
         }
     }
+    
 }
